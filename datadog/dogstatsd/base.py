@@ -224,25 +224,25 @@ class DogStatsd(object):
         Note: connect the socket before assigning it to the class instance to
         avoid bad thread race conditions.
         """
-        log.warning("Getting socket...")
+        print("Getting socket...")
         with self.lock:
             if not self.socket:
-                log.warnin("Socket is None, creating one...")
+                print("Socket is None, creating one...")
                 if self.socket_path is not None:
-                    log.warning("Socket is None, creating AF_UNIX socket...")
+                    print("Socket is None, creating AF_UNIX socket...")
                     sock = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
-                    log.warning("AF_UNIX socket created, connecting...")
+                    print("AF_UNIX socket created, connecting...")
                     sock.connect(self.socket_path)
-                    log.warning("AF_UNIX socket connected, set non-blocking...")
+                    print("AF_UNIX socket connected, set non-blocking...")
                     sock.setblocking(0)
-                    log.warning("AF_UNIX socket setup finished.")
+                    print("AF_UNIX socket setup finished.")
                     self.socket = sock
                 else:
-                    log.warning("Socket is None, creating AF_INET UDP socket...")
+                    print("Socket is None, creating AF_INET UDP socket...")
                     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-                    log.warning("AF_INET UDP socket created, connecting...")
+                    print("AF_INET UDP socket created, connecting...")
                     sock.connect((self.host, self.port))
-                    log.warning("AF_INET UDP socket connected.")
+                    print("AF_INET UDP socket connected.")
                     self.socket = sock
 
         return self.socket
