@@ -241,6 +241,7 @@ class DogStatsd(object):
                     print("Socket is None, creating AF_INET UDP socket...")
                     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                     print("AF_INET UDP socket created, connecting...")
+                    sock.setblocking(0)
                     sock.connect((self.host, self.port))
                     print("AF_INET UDP socket connected.")
                     self.socket = sock
@@ -370,13 +371,12 @@ class DogStatsd(object):
         """
         Closes connected socket if connected.
         """
-        with self.lock:
-            if self.socket:
-                try:
-                    self.socket.close()
-                except OSError as e:
-                    log.error("Unexpected error: %s", str(e))
-                self.socket = None
+        if self.socket:
+            try:
+                self.socket.close()
+            except OSError as e:
+                log.error("Unexpected error: %s", str(e))
+            self.socket = None
 
     def _serialize_metric(self, metric, metric_type, value, tags, sample_rate=1):
         # Create/format the metric packet
