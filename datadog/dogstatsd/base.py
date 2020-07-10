@@ -242,7 +242,7 @@ class DogStatsd(object):
                     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                     print("AF_INET UDP socket created, connecting...")
                     sock.connect((self.host, self.port))
-                    sock.setblocking(0)
+                    # sock.setblocking(0)
                     print("AF_INET UDP socket connected.")
                     self.socket = sock
 
@@ -466,7 +466,7 @@ class DogStatsd(object):
             pass
         except (socket.herror, socket.gaierror) as se:
             log.warning("Error submitting packet: {}, dropping the packet and closing the socket".format(se))
-            self.close_socket()
+            # self.close_socket()
         except socket.error as se:
             if se.errno == errno.EAGAIN:
                 log.warning("Socket send would block: {}, dropping the packet".format(se))
