@@ -242,7 +242,7 @@ class DogStatsd(object):
                     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                     print("AF_INET UDP socket created, connecting...")
                     sock.connect((self.host, self.port))
-                    # sock.setblocking(0)
+                    sock.setblocking(0)
                     print("AF_INET UDP socket connected.")
                     self.socket = sock
 
